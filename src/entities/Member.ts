@@ -1,18 +1,24 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Field, Int, ObjectType } from "type-graphql";
 
 @Entity()
+@ObjectType()
 export class Member {
 
-  @PrimaryKey()
-  _id!: number;
+    @Field(() => Int)
+    @PrimaryKey()
+    id!: number;
 
-  @Property({default: 'NOW()'})
-  createdAt: Date = new Date();
+    @Field(() => String)
+    @Property({default: 'NOW()'})
+    createdAt: Date = new Date();
 
-  @Property({ onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+    @Field(() => String)
+    @Property({ onUpdate: () => new Date() })
+    updatedAt: Date = new Date();
 
-  @Property()
-  name!: string;
+    @Field(() => String)
+    @Property()
+    name!: string;
 
 }

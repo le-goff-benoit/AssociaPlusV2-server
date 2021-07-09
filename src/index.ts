@@ -17,6 +17,7 @@ const main = async () => {
             resolvers: [MemberResolver],
             validate: false,
         }),
+        context: () => ({ orm: orm.em })
     });
 
     apolloServer.applyMiddleware({ app })
@@ -24,9 +25,8 @@ const main = async () => {
     app.listen(__defaultport__, () => {
         console.log('Express Server is running on port: ' + __defaultport__)
     })
-
 }
 
 main().catch((error) => {
     console.log(error);
-}); 
+});
