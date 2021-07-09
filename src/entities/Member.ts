@@ -6,7 +6,7 @@ export class Member {
   @PrimaryKey()
   _id!: number;
 
-  @Property()
+  @Property({default: 'NOW()'})
   createdAt: Date = new Date();
 
   @Property({ onUpdate: () => new Date() })
