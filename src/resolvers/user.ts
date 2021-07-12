@@ -29,9 +29,19 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   async register(
     @Arg("options") options: RegisterInput,
-    @Ctx() { orm }: MyContext
+    @Ctx() { orm, req }: MyContext
   ): Promise<UserResponse> {
     const alreadyExistEmail = await orm.findOne(User, { email: options.email });
+    if (req.session.userId) {
+        return {
+          errors: [
+            {
+              message: "Already logged in",
+              field: "email",
+            },
+          ],
+        };
+      }
     if (alreadyExistEmail != null) {
       return {
         errors: [
@@ -59,6 +69,7 @@ export class UserResolver {
       password: hashedPassword,
     });
     await orm.persistAndFlush(userToCreate);
+    req.session.userId = userToCreate.id;
     return {
       user: userToCreate,
     };
