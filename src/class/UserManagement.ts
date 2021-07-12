@@ -3,39 +3,39 @@ import { Field, InputType, ObjectType } from "type-graphql";
 
 @InputType()
 export class RegisterInput {
-    @Field(() => String, {nullable: true})
-    name?: string
+  @Field(() => String, { nullable: true })
+  name?: string;
 
-    @Field()
-    email: string
+  @Field()
+  email: string;
 
-    @Field()
-    password: string
+  @Field()
+  password: string;
 }
 
 @InputType()
 export class LoginInput {
-    @Field()
-    email: string
+  @Field()
+  email: string;
 
-    @Field()
-    password: string
+  @Field()
+  password: string;
 }
 
 @ObjectType()
 export class UserError {
-    @Field(() => String)
-    message: string;
+  @Field(() => String)
+  message: string;
 
-    @Field(() => String)
-    field: string;
+  @Field(() => String)
+  field: string;
 }
 
 @ObjectType()
 export class UserResponse {
-    @Field(() => [UserError], {nullable: true})
-    errors?: UserError[]
+  @Field(() => [UserError], { nullable: true })
+  errors?: UserError[];
 
-    @Field(() => User, { nullable: true})
-    user?: User
+  @Field(() => User, { nullable: true })
+  user?: User;
 }
