@@ -33,15 +33,15 @@ export class UserResolver {
   ): Promise<UserResponse> {
     const alreadyExistEmail = await orm.findOne(User, { email: options.email });
     if (req.session.userId) {
-        return {
-          errors: [
-            {
-              message: "Already logged in",
-              field: "email",
-            },
-          ],
-        };
-      }
+      return {
+        errors: [
+          {
+            message: "Already logged in",
+            field: "email",
+          },
+        ],
+      };
+    }
     if (alreadyExistEmail != null) {
       return {
         errors: [
