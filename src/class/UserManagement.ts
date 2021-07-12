@@ -1,8 +1,9 @@
-import { Field, InputType } from "type-graphql";
+import { User } from "../entities/User";
+import { Field, InputType, ObjectType } from "type-graphql";
 
 @InputType()
 export class RegisterInput {
-    @Field()
+    @Field(() => String, {nullable: true})
     name: string
 
     @Field()
@@ -19,4 +20,22 @@ export class LoginInput {
 
     @Field()
     password: string
+}
+
+@ObjectType()
+export class UserError {
+    @Field(() => String)
+    message: string;
+
+    @Field(() => String)
+    field: string;
+}
+
+@ObjectType()
+export class UserResponse {
+    @Field(() => [UserError], {nullable: true})
+    errors?: UserError[]
+
+    @Field(() => User, { nullable: true})
+    user?: User
 }
