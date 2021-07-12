@@ -4,6 +4,12 @@ import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { RegisterInput, LoginInput, UserResponse } from "../class/UserManagement";
 
+declare module "express-session" {
+    interface Session {
+      userId: Number;
+    }
+  }
+
 @Resolver()
 export class UserResolver {
 
@@ -43,7 +49,7 @@ export class UserResolver {
     @Mutation(() => UserResponse)
     async login(
         @Arg('options') options: LoginInput,
-        @Ctx() { orm }: MyContext): Promise<UserResponse> {
+        @Ctx() { orm, req }: MyContext): Promise<UserResponse> {
             const userConnecting = await orm.findOne(User, { email: options.email})     
             if (!userConnecting) {
                 return {
@@ -52,8 +58,8 @@ export class UserResolver {
                         field: "email"
                     }]
                 };
-            }  
-            const valid = await argon2.verify(userConnecting.password,options.password)
+            };
+            const valid = await argon2.verify(userConnecting.password,options.password);
             if (!valid) {
                 return {
                     errors: [{
@@ -61,10 +67,13 @@ export class UserResolver {
                         field: "password"
                     }]
                 };
-            } 
+            } ;
+
+            req.session.userId = userConnecting.id
+
             return {
                 user: userConnecting
-            }     
+            };
         }
 
 }
