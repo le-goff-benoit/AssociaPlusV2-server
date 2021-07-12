@@ -17,9 +17,9 @@ export class User {
     @Property({ onUpdate: () => new Date() })
     updatedAt: Date = new Date();
 
-    @Field(() => String)
+    @Field(() => String, {nullable: true})
     @Property()
-    name!: string;
+    name?: string;
 
     @Field(() => String)
     @Property()
