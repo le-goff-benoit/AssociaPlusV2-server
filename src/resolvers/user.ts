@@ -76,6 +76,16 @@ export class UserResolver {
   }
 
   @Mutation(() => UserResponse)
+  async logout(
+  @Ctx() { req }: MyContext): Promise<Boolean> {
+    if (req.session.userId) {
+      req.session.destroy
+      return true
+    }
+    return false
+  }
+
+  @Mutation(() => UserResponse)
   async login(
     @Arg("options") options: LoginInput,
     @Ctx() { orm, req }: MyContext
