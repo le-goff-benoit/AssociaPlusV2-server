@@ -48,7 +48,12 @@ const main = async () => {
     context: ({ req, res }): MyContext => ({ orm: orm.em, req, res }),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: {
+      origin: "http://localhost:3000",
+    },
+  });
 
   app.listen(__defaultport__, () => {
     console.log("Express Server is running on port: " + __defaultport__);
